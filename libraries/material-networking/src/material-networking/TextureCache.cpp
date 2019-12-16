@@ -46,6 +46,7 @@
 #include "NetworkLogging.h"
 #include "MaterialNetworkingLogging.h"
 #include "NetworkingConstants.h"
+#include "MetaverseAPI.h"
 #include <Trace.h>
 #include <StatTracker.h>
 

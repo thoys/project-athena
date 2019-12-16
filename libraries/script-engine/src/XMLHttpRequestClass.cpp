@@ -20,11 +20,12 @@
 #include <AccountManager.h>
 #include <NetworkAccessManager.h>
 #include <NetworkingConstants.h>
+#include "MetaverseAPI.h"
 
 #include "ResourceRequestObserver.h"
 #include "ScriptEngine.h"
 
-const QString METAVERSE_API_URL = NetworkingConstants::METAVERSE_SERVER_URL().toString() + "/api/";
+const QString METAVERSE_API_URL = MetaverseAPI::getCurrentMetaverseServerURL().toString() + "/api/";
 
 Q_DECLARE_METATYPE(QByteArray*)
 

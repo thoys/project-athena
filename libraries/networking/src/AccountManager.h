@@ -24,6 +24,7 @@
 #include "AccountSettings.h"
 #include "DataServerAccountInfo.h"
 #include "NetworkingConstants.h"
+#include "MetaverseAPI.h"
 #include "NetworkAccessManager.h"
 #include "SharedUtil.h"
 
@@ -97,7 +98,7 @@ public:
     void setTemporaryDomain(const QUuid& domainID, const QString& key);
     const QString& getTemporaryDomainKey(const QUuid& domainID) { return _accountInfo.getTemporaryDomainKey(domainID); }
 
-    QUrl getMetaverseServerURL() { return NetworkingConstants::METAVERSE_SERVER_URL(); }
+    QUrl getMetaverseServerURL() { return MetaverseAPI::getCurrentMetaverseServerURL(); }
 
     void removeAccountFromFile();
 

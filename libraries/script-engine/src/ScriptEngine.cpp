@@ -85,9 +85,6 @@
 #include "MIDIEvent.h"
 
 #include "SettingHandle.h"
-// #include "SettingManager.h"
-// #include "SettingInterface.h"
-// #include "SettingHelpers.h"
 
 const QString ScriptEngine::_SETTINGS_ENABLE_EXTENDED_EXCEPTIONS {
     "com.highfidelity.experimental.enableExtendedJSExceptions"
