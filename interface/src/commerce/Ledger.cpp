@@ -182,8 +182,13 @@ QString hfcString(const QJsonValue& sentValue, const QJsonValue& receivedValue) 
     }
     return result;
 }
-static const QString USER_PAGE_BASE_URL = MetaverseAPI::getCurrentMetaverseServerURL().toString() + "/users/";
-static const QString PLACE_PAGE_BASE_URL = MetaverseAPI::getCurrentMetaverseServerURL().toString() + "/places/";
+
+
+
+static const QString USER_PAGE_BASE_URL = /*MetaverseAPI::getCurrentMetaverseServerURL().toString() +*/ "/users/";
+static const QString PLACE_PAGE_BASE_URL = /*MetaverseAPI::getCurrentMetaverseServerURL().toString() +*/ "/places/";
+
+
 static const QStringList KNOWN_USERS(QStringList() << "highfidelity" << "marketplace");
 QString userLink(const QString& username, const QString& placename) {
     if (username.isEmpty()) {
