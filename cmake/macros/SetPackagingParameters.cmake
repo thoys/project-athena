@@ -35,7 +35,7 @@ macro(SET_PACKAGING_PARAMETERS)
     set(DEPLOY_PACKAGE TRUE)
     set(PRODUCTION_BUILD 1)
     set(BUILD_VERSION ${RELEASE_NUMBER})
-    set(BUILD_ORGANIZATION "High Fidelity")
+    set(BUILD_ORGANIZATION "Project Athena")
     set(HIGH_FIDELITY_PROTOCOL "hifi")
     set(HIGH_FIDELITY_APP_PROTOCOL "hifiapp")
     set(INTERFACE_BUNDLE_NAME "interface")
@@ -60,7 +60,7 @@ macro(SET_PACKAGING_PARAMETERS)
     set(DEPLOY_PACKAGE TRUE)
     set(PR_BUILD 1)
     set(BUILD_VERSION "PR${RELEASE_NUMBER}")
-    set(BUILD_ORGANIZATION "High Fidelity - PR${RELEASE_NUMBER}")
+    set(BUILD_ORGANIZATION "Project Athena - PR${RELEASE_NUMBER}")
     set(INTERFACE_BUNDLE_NAME "interface")
     set(INTERFACE_ICON_PREFIX "interface-beta")
 
@@ -69,7 +69,7 @@ macro(SET_PACKAGING_PARAMETERS)
   else ()
     set(DEV_BUILD 1)
     set(BUILD_VERSION "dev")
-    set(BUILD_ORGANIZATION "High Fidelity - ${BUILD_VERSION}")
+    set(BUILD_ORGANIZATION "Project Athena - ${BUILD_VERSION}")
     set(INTERFACE_BUNDLE_NAME "interface")
     set(INTERFACE_ICON_PREFIX "interface-beta")
 
@@ -91,37 +91,11 @@ macro(SET_PACKAGING_PARAMETERS)
   endif ()
 
   if ((PRODUCTION_BUILD OR PR_BUILD) AND NOT STABLE_BUILD)
+    set(GIT_PR_COMMIT $ENV{GIT_PR_COMMIT})
+    #set(GIT_COMMIT_HASH ${GIT_PR_COMMIT})
+    string(SUBSTRING ${GIT_PR_COMMIT} 0 7 GIT_COMMIT_HASH)
     # append the abbreviated commit SHA to the build version
     # since this is a PR build or master/nightly builds
-
-    # for PR_BUILDS, we need to grab the abbreviated SHA
-    # for the second parent of HEAD (not HEAD) since that is the
-    # SHA of the commit merged to master for the build
-    if (PR_BUILD)
-      set(_GIT_LOG_FORMAT "%p %h")
-    else ()
-      set(_GIT_LOG_FORMAT "%h")
-    endif ()
-
-    execute_process(
-      COMMAND git log -1 --abbrev=7 --format=${_GIT_LOG_FORMAT}
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      OUTPUT_VARIABLE _GIT_LOG_OUTPUT
-      ERROR_VARIABLE _GIT_LOG_ERROR
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-
-    if (PR_BUILD)
-      separate_arguments(_COMMIT_PARENTS UNIX_COMMAND ${_GIT_LOG_OUTPUT})
-      list(GET _COMMIT_PARENTS 1 GIT_COMMIT_HASH)
-    else ()
-      set(GIT_COMMIT_HASH ${_GIT_LOG_OUTPUT})
-    endif ()
-
-    if (_GIT_LOG_ERROR OR NOT GIT_COMMIT_HASH)
-      message(FATAL_ERROR "Could not retreive abbreviated SHA for PR or production master build")
-    endif ()
-
     set(BUILD_VERSION_NO_SHA ${BUILD_VERSION})
     set(BUILD_VERSION "${BUILD_VERSION}-${GIT_COMMIT_HASH}")
 
@@ -192,21 +166,21 @@ macro(SET_PACKAGING_PARAMETERS)
 
     # shortcut names
     if (PRODUCTION_BUILD)
-      set(INTERFACE_SHORTCUT_NAME "High Fidelity")
+      set(INTERFACE_SHORTCUT_NAME "Project Athena")
       set(CONSOLE_SHORTCUT_NAME "Console")
       set(SANDBOX_SHORTCUT_NAME "Sandbox")
       set(APP_USER_MODEL_ID "com.highfidelity.console")
     else ()
-      set(INTERFACE_SHORTCUT_NAME "High Fidelity - ${BUILD_VERSION_NO_SHA}")
+      set(INTERFACE_SHORTCUT_NAME "Project Athena - ${BUILD_VERSION_NO_SHA}")
       set(CONSOLE_SHORTCUT_NAME "Console - ${BUILD_VERSION_NO_SHA}")
       set(SANDBOX_SHORTCUT_NAME "Sandbox - ${BUILD_VERSION_NO_SHA}")
     endif ()
 
     set(INTERFACE_HF_SHORTCUT_NAME "${INTERFACE_SHORTCUT_NAME}")
-    set(CONSOLE_HF_SHORTCUT_NAME "High Fidelity ${CONSOLE_SHORTCUT_NAME}")
-    set(SANDBOX_HF_SHORTCUT_NAME "High Fidelity ${SANDBOX_SHORTCUT_NAME}")
+    set(CONSOLE_HF_SHORTCUT_NAME "Project Athena ${CONSOLE_SHORTCUT_NAME}")
+    set(SANDBOX_HF_SHORTCUT_NAME "Project Athena ${SANDBOX_SHORTCUT_NAME}")
 	
-    set(PRE_SANDBOX_INTERFACE_SHORTCUT_NAME "High Fidelity")
+    set(PRE_SANDBOX_INTERFACE_SHORTCUT_NAME "Project Athena")
     set(PRE_SANDBOX_CONSOLE_SHORTCUT_NAME "Server Console")
 
     # check if we need to find signtool
