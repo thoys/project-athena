@@ -29,7 +29,8 @@ jobs:
   build:
     strategy:
         matrix:
-          os: [windows-latest, macOS-latest]
+          # os: [windows-latest, macOS-latest]
+          os: [macOS-latest]
           build_type: [full]
         fail-fast: false
     runs-on: ${{matrix.os}}
@@ -115,30 +116,30 @@ jobs:
         ARTIFACT_PATTERN: ProjectAthena-Alpha-PR${{ github.event.number }}-*.exe
       run: python "$GITHUB_WORKSPACE\tools\ci-scripts\upload_to_publish_server.py"
 
-  build_full_linux:
-    runs-on: ubuntu-16.04
-    env:
-      JOB_NAME: build_full_linux
-    if: github.event.action != 'labeled' || github.event.label.name == 'rebuild'
-    steps:
-    - uses: actions/checkout@v1
-      with: 
-        submodules: true
-        fetch-depth: 1
-    - name: Update apt repository index
-      run: sudo apt update
-    - name: Install apt packages
-      run: sudo apt install -y mesa-common-dev libegl1 libglvnd-dev libdouble-conversion1 libpulse0 python3-setuptools
-    - name: Install python modules
-      shell: bash
-      run: pip3 install boto3 distro PyGithub
-    - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
-    - name: Configure CMake
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DVCPKG_BUILD_TYPE=release -DBUILD_TOOLS:BOOLEAN=FALSE
-    - name:
-      shell: bash
-      working-directory: ${{runner.workspace}}/build
-      run: cmake --build . -- -j3
+  # build_full_linux:
+  # runs-on: ubuntu-16.04
+  #   env:
+  #     JOB_NAME: build_full_linux
+  #   if: github.event.action != 'labeled' || github.event.label.name == 'rebuild'
+  #   steps:
+  #   - uses: actions/checkout@v1
+  #     with: 
+  #       submodules: true
+  #       fetch-depth: 1
+  #   - name: Update apt repository index
+  #     run: sudo apt update
+  #   - name: Install apt packages
+  #     run: sudo apt install -y mesa-common-dev libegl1 libglvnd-dev libdouble-conversion1 libpulse0 python3-setuptools
+  #   - name: Install python modules
+  #     shell: bash
+  #     run: pip3 install boto3 distro PyGithub
+  #   - name: Create Build Environment
+  #     run: cmake -E make_directory ${{runner.workspace}}/build
+  #   - name: Configure CMake
+  #     working-directory: ${{runner.workspace}}/build
+  #     shell: bash
+  #     run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DVCPKG_BUILD_TYPE=release -DBUILD_TOOLS:BOOLEAN=FALSE
+  #   - name:
+  #     shell: bash
+  #     working-directory: ${{runner.workspace}}/build
+  #     run: cmake --build . -- -j3
