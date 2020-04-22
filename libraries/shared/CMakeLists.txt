@@ -13,6 +13,12 @@ if (ANDROID)
     target_link_libraries(${TARGET_NAME} android)
 endif()
 
+if (APPLE)
+    find_library(FRAMEWORK_IOKIT IOKit)
+    find_library(CORE_FOUNDATION CoreFoundation)
+    target_link_libraries(${TARGET_NAME} ${FRAMEWORK_IOKIT} ${CORE_FOUNDATION})
+endif()
+
 target_zlib()
 target_nsight()
 target_json()
